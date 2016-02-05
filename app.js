@@ -5,9 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
 var app = express();
-var title = 'GO Dutch'
+
+//router require statements
+var index = require('./routes/index');
+var register = require('./routes/register');
+var login = require('./routes/login')
+var dashboard = require('./routes/dashboard');
+var createRoom = require('./routes/createroom');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,43 +30,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //routes
-app.get('/', function(req, res){
-  res.render('index');
-});
+app.use('/', index);
+app.use('/login', login);
+app.use('/register', register);
+app.use('/dashboard', dashboard);
+app.use('/createroom', createRoom);
 
-app.get('/register', function(req, res){
-  res.render('register');
-});
-
-app.post('/register', function(req, res){
-  // create a user in DB with form data
-  res.redirect('dashboard');
-});
-
-app.get('/login', function(req, res){
-  res.render('login');
-});
-
-app.post('/login', function(req, res){
-  // find user in databse, verify password, set session
-  //check invites middleware if login successful
-  res.redirect('dashboard');
-});
-
-app.get('/dashboard', function(req, res){
-  res.render('dashboard');
-});
-
-app.get('/createroom', function(req, res){
-  res.render('createroom');
-});
-
-app.post('/createroom', function(req, res){
-  //create a room associated with the user in the DB
-  //the room should have the given name from the form
-  // the room-users(ie ppl living in room) should have the only the user who created it
-  //
-})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

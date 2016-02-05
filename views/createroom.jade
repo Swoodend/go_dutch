@@ -1,0 +1,11 @@
+block vars
+  -var title = 'Create a Room'
+
+block body
+  p create a room below
+  
+  form(action='/createroom', method='post')
+    p name  <input type='text', name='roomname'/>
+    br
+    input(type='submit', value='CREATE ROOM')
+

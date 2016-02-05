@@ -1,5 +1,6 @@
 extends layout
-
-block content
+block vars
+  -var title = 'Home'
+block body
   h1= title
-  p Welcome to #{title}
+  p Please <a href='/login'>login</a> or <a href='/register'>register</a> to get started

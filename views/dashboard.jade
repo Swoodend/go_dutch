@@ -1,0 +1,24 @@
+extends layout
+
+block vars
+  -var title = 'Dashboard'
+
+block body
+  p logged in. welcome to your dashboard
+
+  div
+    p Your Room:
+
+  div 
+    p Your roomates:
+
+  div
+    p Bills:
+
+  div
+    p Balance:
+
+  div
+    p Dont belong to a room yet? Click below to create a room and invite your roomates!
+    form(action='/createroom', method='get')
+      input(type='submit', value='CREATE ROOM')

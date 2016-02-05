@@ -10,6 +10,6 @@ router.post('/', function(req, res){
   //the room should have the given name from the form
   // the room-users(ie ppl living in room) should have the only the user who created it
   res.render('dashboard');
-})
+});
 
 module.exports = router;

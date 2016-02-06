@@ -4,6 +4,9 @@ block vars
  - var title = 'Login'
 block body
   h1 Login
+
+  if error
+    p Error: #{error}
   
   form(action='/login', method='post')
     p Email

@@ -5,7 +5,8 @@ block vars
 
 block body
   
-  h1 Sign up now!
+  if error
+    p Error: #{error}
 
   form(action='/register', method='post')
     p First Name

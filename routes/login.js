@@ -3,6 +3,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var userModel = require('../models/users');
 var User = mongoose.model('User');
+var bcrypt = require('bcrypt');
+var register = require('./register');
 
 router.get('/', function(req, res){
   res.render('login');
@@ -11,14 +13,15 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
   // find user in databse, verify password, set session
   //check invites middleware if login successful
-  
+
+
   User.findOne({ email: req.body.email }, function(err, user) {
     if (!user){
       var error = 'No user found with that email. Head to registration page.';
       res.render('login', { error: error});
     } else {
       console.log(user.password)
-      if (user.password === req.body.password){
+      if (bcrypt.compareSync(req.body.password, user.password)){
         res.redirect('dashboard');
       } else{
         console.log(user.password)

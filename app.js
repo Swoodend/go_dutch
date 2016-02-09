@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var sessions = require('client-sessions');
 var app = express();
 
 //router require statements
@@ -13,6 +14,7 @@ var register = require('./routes/register');
 var login = require('./routes/login')
 var dashboard = require('./routes/dashboard');
 var createRoom = require('./routes/createroom');
+var logout = require('./routes/logout');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,10 +32,17 @@ mongoose.connect('mongodb://localhost/go_dutch');
 
 //middlewares
 
+app.use(sessions({
+  cookieName: 'session',
+  secret: 'sjdkhfjhsahfkja786787834hjldfjglfkdjl',
+  duration: 30 * 60 * 1000,
+  activeDruration: 5 * 60 * 1000
+}));
 
 //routes
 app.use('/', index);
 app.use('/login', login);
+app.use('/logout', logout);
 app.use('/register', register);
 app.use('/dashboard', dashboard);
 app.use('/createroom', createRoom);

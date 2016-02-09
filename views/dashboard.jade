@@ -4,8 +4,10 @@ block vars
   -var title = 'Dashboard'
 
 block body
-  p logged in. welcome to your dashboard
-
+  if user
+    p hello #{user.firstName} #{user.lastName}
+  h1 Dashboard
+  
   div
     p Your Room:
 

@@ -4,22 +4,21 @@ var mongoose = require('mongoose');
 var sessions = require('client-sessions');
 var User = mongoose.model('User');
 
-
-
-router.get('/', function(req, res){
-  if (req.session && req.session.user){
-    User.findOne( { email: req.session.user.email }, function(err, user){
-      if (!user){
-        req.session.reset();
-        res.redirect('/login', { error: 'couldn\'t find user. try again'});
-      } else{
-        res.locals.user = user;
-        res.render('../views/dashboard');
-      }
-    });
-  } else {
+function checkSession(req,res,next){
+  console.log('DASHBOARD ONE' )
+  console.log(req.session.user);
+  if (req.session.user){
+    console.log('we in here');
+    next();
+  } else{
     res.redirect('/login');
-  };
+  }
+}
+
+router.get('/', checkSession, function(req, res){
+  console.log('do i get called');
+  res.render('../views/dashboard');
 });
+
 
 module.exports = router;

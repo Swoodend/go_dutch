@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var userModel = require('./models/users');
+var User = mongoose.model('User');
 var sessions = require('client-sessions');
 var app = express();
 
@@ -38,6 +40,7 @@ app.use(sessions({
   duration: 30 * 60 * 1000,
   activeDruration: 5 * 60 * 1000
 }));
+
 
 //routes
 app.use('/', index);

@@ -7,7 +7,7 @@ router.get('/', function(req, res){
     req.session.reset();
     res.redirect('/');
   } else {
-    next();
+    res.redirect('/');
   }
 });
 

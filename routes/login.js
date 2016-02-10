@@ -8,6 +8,7 @@ var register = require('./register');
 var sessions = require('client-sessions');
 
 
+
 router.get('/', function(req, res){
   res.render('login');
 });
@@ -21,7 +22,9 @@ router.post('/', function(req, res){
       res.render('login', { error: error});
     } else {
       if (bcrypt.compareSync(req.body.password, user.password)){
-        req.session.user = user; //set-cookie: {firstName:.., lastName:.., email:.., pass:}
+        console.log(req.session.user);
+        req.user = user;
+        req.session.user = user
         res.redirect('/dashboard');
       } else{
         res.render('login', {error: 'Incorrect password. Try again'});

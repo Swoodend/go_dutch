@@ -13,7 +13,7 @@ function checkSession(req,res,next){
 }
 
 router.get('/', checkSession, function(req, res){
-  res.render('../views/dashboard');
+  res.render('../views/dashboard', {user: req.session.user});
 });
 
 

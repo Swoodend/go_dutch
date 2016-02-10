@@ -17,7 +17,8 @@ var login = require('./routes/login')
 var dashboard = require('./routes/dashboard');
 var createRoom = require('./routes/createroom');
 var logout = require('./routes/logout');
-
+var about = require('./routes/about');
+var contact = require('./routes/contact');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -49,7 +50,8 @@ app.use('/logout', logout);
 app.use('/register', register);
 app.use('/dashboard', dashboard);
 app.use('/createroom', createRoom);
-
+app.use('/about', about);
+app.use('/contact', contact);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

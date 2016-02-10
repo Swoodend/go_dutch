@@ -22,7 +22,6 @@ router.post('/', function(req, res){
       res.render('login', { error: error});
     } else {
       if (bcrypt.compareSync(req.body.password, user.password)){
-        console.log(req.session.user);
         req.user = user;
         req.session.user = user
         res.redirect('/dashboard');

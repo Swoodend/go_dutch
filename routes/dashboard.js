@@ -5,10 +5,7 @@ var sessions = require('client-sessions');
 var User = mongoose.model('User');
 
 function checkSession(req,res,next){
-  console.log('DASHBOARD ONE' )
-  console.log(req.session.user);
   if (req.session.user){
-    console.log('we in here');
     next();
   } else{
     res.redirect('/login');
@@ -16,7 +13,6 @@ function checkSession(req,res,next){
 }
 
 router.get('/', checkSession, function(req, res){
-  console.log('do i get called');
   res.render('../views/dashboard');
 });
 

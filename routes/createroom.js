@@ -13,6 +13,11 @@ router.post('/', function(req, res){
   var roomName = req.body.name;
   var currentuser = User.findOne({email: currentUserEmail}, function(err, user){
     user.room.roomName = roomName;
+    user.room.users.push({
+      firstName: req.session.user.firstName,
+      lastName: req.session.user.lastName,
+      email: currentUserEmail
+      });
     user.save(function(err, resp){
       if (err){
         var error = 'something went wrong. try again';

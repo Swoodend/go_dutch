@@ -29,9 +29,7 @@ router.post('/', function(req, res){
       }
       res.render('register', { error: error });
     } else {
-      req.user = user;
-      req.session.user = user;
-      res.redirect('/dashboard');
+      res.redirect('/login');
     }
   });
 });

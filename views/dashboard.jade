@@ -9,8 +9,12 @@ block body
   h1 Dashboard
   
   div
-    p Your Room:
+    if user.room.roomName
+      p Your Room:
+      p #{user.room.roomName}
 
+    else
+      p You haven't created a room yet. Get going man!
   div 
     p Your roomates:
 
@@ -24,3 +28,5 @@ block body
     p Dont belong to a room yet? Click below to create a room and invite your roomates!
     form(action='/createroom', method='get')
       input(type='submit', value='CREATE ROOM')
+
+  a(href="/logout") logout

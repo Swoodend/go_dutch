@@ -1,15 +1,27 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
+var userModel = require('../models/users');
+var User = mongoose.model('User');
 
 router.get('/', function(req, res){
   res.render('createroom');
 });
 
 router.post('/', function(req, res){
-  //create a room associated with the user in the DB
-  //the room should have the given name from the form
-  // the room-users(ie ppl living in room) should have the only the user who created it
-  res.render('dashboard');
+  var currentUserEmail = req.session.user.email;
+  var roomName = req.body.name;
+  var currentuser = User.findOne({email: currentUserEmail}, function(err, user){
+    user.room.roomName = roomName;
+    user.save(function(err, resp){
+      if (err){
+        var error = 'something went wrong. try again';
+        res.render('/createroom', {error: error});
+      } else{
+        res.redirect('/dashboard');
+      }
+    });
+  });
 });
 
 module.exports = router;

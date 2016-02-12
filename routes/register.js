@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var model = require('../models/users');
 var User = mongoose.model('User');
 var bcrypt = require('bcrypt');
+var sessions = require('client-sessions');
 
 router.get('/', function(req, res){
   res.render('register');
@@ -28,6 +29,8 @@ router.post('/', function(req, res){
       }
       res.render('register', { error: error });
     } else {
+      req.user = user;
+      req.session.user = user;
       res.redirect('/dashboard');
     }
   });

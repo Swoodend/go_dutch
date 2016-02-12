@@ -4,7 +4,12 @@ var userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName : { type: String, required: true },
   email    : { type: String, required: true, unique: true },
-  password : { type: String, required: true }
+  password : { type: String, required: true },
+  room: {
+    roomName: String,
+    users: Array
+  },
+  roomInvites: Array
 });
 
 module.exports = mongoose.model('User', userSchema);

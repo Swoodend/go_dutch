@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var sessions = require('client-sessions');
 var User = mongoose.model('User');
 
-function checkSession(req,res,next){
+function verifyLogin(req,res,next){
   if (req.session.user){
     next();
   } else{
@@ -12,7 +12,7 @@ function checkSession(req,res,next){
   }
 }
 
-router.get('/', checkSession, function(req, res){
+router.get('/', verifyLogin, function(req, res){
   var user = User.findOne({email: req.session.user.email}, function(err, user){
     if (user){
       res.render('../views/dashboard', {user: user});

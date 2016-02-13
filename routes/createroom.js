@@ -5,7 +5,7 @@ var userModel = require('../models/users');
 var User = mongoose.model('User');
 
 router.get('/', function(req, res){
-  res.render('createroom');
+  res.render('createroom', {user: req.user});
 });
 
 router.post('/', function(req, res){

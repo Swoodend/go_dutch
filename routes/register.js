@@ -8,7 +8,7 @@ var bcrypt = require('bcrypt');
 var sessions = require('client-sessions');
 
 router.get('/', function(req, res){
-  res.render('register');
+  res.render('register', {user: req.user});
 });
 
 router.post('/', function(req, res){

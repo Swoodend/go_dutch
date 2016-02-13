@@ -7,7 +7,7 @@ var userSchema = new mongoose.Schema({
   password : { type: String, required: true },
   room: {
     roomName: String,
-    users: Array
+    roomies: Array
   },
   roomInvites: Array
 });

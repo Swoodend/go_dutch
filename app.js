@@ -54,6 +54,15 @@ app.all("*", function checkSession(req, res, next){
   }
 });
 
+app.all('*', function checkInvites(req, res, next){
+  if (req.session.user.roomInvites.length > 0 ){
+    console.log('you have a room invite');
+    next();
+  } else {
+    console.log('no invites');
+    next();
+  }
+});
 
 //routes
 app.use('/', index);

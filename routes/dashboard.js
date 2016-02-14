@@ -15,7 +15,7 @@ function verifyLogin(req,res,next){
 router.get('/', verifyLogin, function(req, res){
   var user = User.findOne({email: req.session.user.email}, function(err, user){
     if (user){
-      res.render('../views/dashboard', {user: user});
+      res.render('../views/dashboard', {user: req.user});
     } else{
       res.send('something went wrong');
     }

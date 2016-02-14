@@ -34,16 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.connect('mongodb://localhost/go_dutch');
 
 
-function checkSession(req, res, next){
-  if (req.session.user){
-    console.log('here');
-    var user = req.session.user
-    req.user = user;
-    next();
-  } else {
-    next();
-  } 
-}
+
 
 app.use(sessions({
   cookieName: 'session',
@@ -52,16 +43,28 @@ app.use(sessions({
   activeDruration: 5 * 60 * 1000
 }));
 
+app.all("*", function checkSession(req, res, next){
+  if (req.session.user){
+    console.log(req.session.user);
+    console.log(typeof(req.session.user));
+    req.user = req.session.user;
+    next();
+  } else {
+    next();
+  }
+});
+
 
 //routes
-app.use('/', checkSession, index);
-app.use('/login', checkSession, login);
-app.use('/logout', checkSession, logout);
-app.use('/register', checkSession, register);
-app.use('/dashboard', checkSession, dashboard);
-app.use('/createroom', checkSession, createRoom);
-app.use('/about', checkSession, about);
-app.use('/contact', checkSession, contact);
+app.use('/', index);
+app.use('/login', login);
+app.use('/logout', logout);
+app.use('/register', register);
+app.use('/dashboard', dashboard);
+app.use('/createroom', createRoom);
+app.use('/about', about);
+app.use('/contact', contact);
+
 
 
 // catch 404 and forward to error handler

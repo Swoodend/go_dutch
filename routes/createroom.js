@@ -29,4 +29,27 @@ router.post('/', function(req, res){
   });
 });
 
+router.post('/addroommate', function(req, res){
+  User.findOne({email: req.body.roomMateEmail}, function(err, user){
+    //have to create a room before you can invite ppl
+    if (user && req.session.user.room.roomName){
+      user.roomInvites.push({
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        email: req.user.email
+      });
+      user.save(function(err, resp){
+        if (!err){
+          //redirect to a page here eventually
+          res.send(user.firstName + ' has been sent a room invite');
+        } else {
+          res.send('something went wrong');
+        }
+      })
+    } else{
+      res.send('You havent created a room yet or we can\'t find an account associated with that email');
+    }
+  })
+})
+
 module.exports = router;

@@ -9,10 +9,10 @@ block body
   h1 Dashboard
   
   div
-    if user.room.roomName
+    if user
       p Your Room:
       p #{user.room.roomName}
-
+    
     else
       p You haven't created a room yet. Get going man!
   div 

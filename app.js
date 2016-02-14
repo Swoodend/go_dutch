@@ -45,8 +45,6 @@ app.use(sessions({
 
 app.all("*", function checkSession(req, res, next){
   if (req.session.user){
-    console.log(req.session.user);
-    console.log(typeof(req.session.user));
     req.user = req.session.user;
     next();
   } else {
@@ -55,7 +53,7 @@ app.all("*", function checkSession(req, res, next){
 });
 
 app.all('*', function checkInvites(req, res, next){
-  if (req.session.user.roomInvites.length > 0 ){
+  if (req.user && req.user.roomInvites.length > 0 ){
     console.log('you have a room invite');
     next();
   } else {

@@ -29,4 +29,8 @@ block body
     form(action='/createroom', method='get')
       input(type='submit', value='CREATE ROOM')
 
+    form(action='/createroom/addroommate', method='post')
+      input(type='text', name='roomMateEmail')
+      input(type='submit', value='ADD ROOMATE')
+
   a(href="/logout") logout

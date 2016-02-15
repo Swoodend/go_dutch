@@ -54,9 +54,15 @@ app.all("*", function checkSession(req, res, next){
 
 app.all('*', function checkInvites(req, res, next){
   if (req.user && req.user.roomInvites.length > 0 ){
+    res.locals = {
+      roomInvite: true
+    }
     console.log('you have a room invite');
     next();
   } else {
+    res.locals = {
+      roomInvite: false
+    }
     console.log('no invites');
     next();
   }

@@ -28,9 +28,18 @@ html(lang="en")
             li
               a(href='/contact') Contact
           ul.nav.navbar-nav.navbar-right
+
             if user 
               li
                 a(href='/dashboard') #{user.firstName}
+              li
+                if roomInvite
+                  a(id='highlight-friend', href='/dashboard')
+                    span(class='glyphicon glyphicon-user')
+                else
+                  a(href='/dashboard')
+                    span(class='glyphicon glyphicon-user')
+
               li
                 a(href='/logout') Logout
             else

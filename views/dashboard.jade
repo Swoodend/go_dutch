@@ -9,20 +9,37 @@ block body
   h1 Dashboard
   
   div
-    if user
-      p Your Room:
-      p #{user.room.roomName}
-    
+    if user.room.roomName
+      p Room Name: 
+      p #{user.room.roomName}    
     else
       p You haven't created a room yet. Get going man!
-  div 
-    p Your roomates:
-    
+
+  div
+    p roomates:  
+      if user.room.roomies  
+        each roomie in user.room.roomies
+          p #{roomie.firstName} #{roomie.lastName}
+      else
+        p you have no roomates, baller status achieved.
+  
+
   div
     p Bills:
 
   div
     p Balance:
+
+  div
+    p Room invites:
+      if roomInvite
+        ul
+          each invite in user.roomInvites
+            li You have a room invitation from #{invite.firstName} #{invite.lastName}
+              form(action='/createroom/acceptinvite', method='post')
+                input(type='submit', value='ACCEPT', name='inviteStatusAccept')
+                input(type='submit', value='DECLINE', name='inviteStatusDecline')
+
 
   div
     p Dont belong to a room yet? Click below to create a room and invite your roomates!

@@ -57,13 +57,11 @@ app.all('*', function checkInvites(req, res, next){
     res.locals = {
       roomInvite: true
     }
-    console.log('you have a room invite');
     next();
   } else {
     res.locals = {
       roomInvite: false
     }
-    console.log('no invites');
     next();
   }
 });

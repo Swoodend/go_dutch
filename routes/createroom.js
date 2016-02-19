@@ -11,12 +11,7 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
   var currentUserEmail = req.session.user.email;
   var roomName = req.body.name;
-  var currentuser = User.findOne({email: currentUserEmail}, function(err, user){
-    user.room.roomies.push({
-      firstName: req.session.user.firstName,
-      lastName: req.session.user.lastName,
-      email: currentUserEmail
-      });
+  User.findOne({email: currentUserEmail}, function(err, user){
     user.room.roomName = roomName;
     req.session.user.room.roomName = roomName;
     user.save(function(err, resp){
@@ -65,19 +60,25 @@ router.post('/acceptinvite', function(req, res){
       })
     });
   } else {
+    User.findOne({email: req.session.user.email}, function(err, user){
+      user.roomInvites.pop();
+      user.save();
+    });
     res.send('you declined the invite');
   }
 });
 
+//user.room.roomInvites[0].roomName
+
 router.post('/addroommate', function(req, res){
   User.findOne({email: req.body.roomMateEmail}, function(err, user){
-    //have to create a room before you can invite ppl
     //if the invitee is found and the current user has a room
     if (user && req.session.user.room.roomName){
       user.roomInvites.push({
         firstName: req.user.firstName,
         lastName: req.user.lastName,
-        email: req.user.email
+        email: req.user.email,
+        roomName: req.session.user.room.roomName
       });
       user.save(function(err, resp){
         if (!err){

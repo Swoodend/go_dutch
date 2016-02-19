@@ -9,12 +9,16 @@ block body
   h1 Dashboard
   
   div
-    if user.room.roomName
-      p Room Name: 
-      p #{user.room.roomName}    
+    if user.room.roomName || user.room.roomies[0] != undefined
+      if user.room.roomName
+        p Room Name: 
+        p #{user.room.roomName}  
+      else
+        p Room Name:
+        p #{user.room.roomies[0].roomName}  
     else
-      p You haven't created a room yet. Get going man!
-
+      p You have no room. Get going man! Create your own or join a friend's below
+   
   div
     p roomates:  
       if user.room.roomies  

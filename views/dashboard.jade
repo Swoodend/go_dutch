@@ -9,10 +9,10 @@ block body
   h1 Dashboard
   
   div
-    if user.room.roomName || user.room.roomies[0] != undefined
-      if user.room.roomName
+    if user.roomName || user.room.roomies[0] != undefined
+      if user.roomName
         p Room Name: 
-        p #{user.room.roomName}  
+        p #{user.roomName}  
       else
         p Room Name:
         p #{user.room.roomies[0].roomName}  

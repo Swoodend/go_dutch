@@ -8,7 +8,7 @@ function gatherBills(req, res, next){
   var roomName = req.session.user.roomInvites[0].roomName;
   var email = req.session.user.email;
 
-  User.find({'room.roomName': roomName}, function(err, allUsers){
+  User.find({roomName: roomName}, function(err, allUsers){
     User.findOne({email: email}, function(err, user){
       for (var i = 0; i < allUsers.length; i++){
         for(var j = 0; j < allUsers[i].bills.length; j++){
@@ -27,14 +27,14 @@ function gatherBills(req, res, next){
 };
 
 router.get('/', function(req, res){
-  res.render('createroom', {user: req.user});
+  res.render('createroom');
 });
 
 router.post('/', function(req, res){
   var currentUserEmail = req.session.user.email;
   var roomName = req.body.name;
   User.findOne({email: currentUserEmail}, function(err, user){
-    user.room.roomName = roomName;
+    user.roomName = roomName;
     req.session.user.room.roomName = roomName;
     user.save(function(err, resp){
       if (err){
@@ -50,8 +50,9 @@ router.post('/', function(req, res){
 router.post('/acceptinvite', gatherBills, function(req, res){
   var acceptInvite = req.body.inviteStatusAccept;
   if (acceptInvite){
-
     User.findOne({email: req.session.user.email}, function(err, user){
+      user.roomName = user.roomInvites[0].roomName;
+
       user.room.roomies.push({
         firstName: user.roomInvites[0].firstName,
         lastName: user.roomInvites[0].lastName,
@@ -113,30 +114,23 @@ router.post('/addroommate', function(req, res){
 })
 
 router.post('/addbill', function(req, res){
-  var amount = req.body.billAmount;
-  var type = req.body.billType;
-  var roomName = req.session.user.room.roomName;
+  var billAmount = req.body.billAmount;
+  var billType = req.body.billType;
   var email = req.session.user.email;
-  //user must have a room to make bills
-  if (roomName){
-    User.findOne({email: email}, function(err, user){
-      user.bills.push({
-        type: type,
-        amount: amount
-      });
-      user.save(function(err){
-        if (!err){
-          res.redirect('/dashboard');
-        } else{
-          res.send(err);
-        }
+
+  User.findOne({email: req.session.user.email}, function(err, user){
+    if (user.roomName){
+      User.find({roomName: user.roomName}, function(err, allUsers){
+        for (var i = 0; i < allUsers.length; i++){
+          allUsers[i].bills.push({type: billType, amount: billAmount});
+          allUsers[i].save();
+        }         
       })
-    });
-  } else {
-    res.send('create or join a room before creating bills');
-  }
-
-
+      res.redirect('/dashboard');
+    } else{
+      res.send('you need a room before you can add bills');
+    }
+  })
 });
 
 module.exports = router;

@@ -9,7 +9,8 @@ var userSchema = new mongoose.Schema({
     roomName: String,
     roomies: Array
   },
-  roomInvites: Array
+  roomInvites: Array,
+  bills: Array
 });
 
 module.exports = mongoose.model('User', userSchema);

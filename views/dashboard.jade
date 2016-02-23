@@ -30,13 +30,17 @@ block body
 
   div
     p Bills:
+    if user.bills.length > 0
+      each bill in user.bills
+        p #{bill.type}: #{bill.amount}
+
 
   div
     p Balance:
 
   div
     p Room invites:
-      if roomInvite
+      if user.roomInvites
         ul
           each invite in user.roomInvites
             li You have a room invitation from #{invite.firstName} #{invite.lastName}
@@ -48,10 +52,21 @@ block body
   div
     p Dont belong to a room yet? Click below to create a room and invite your roomates!
     form(action='/createroom', method='get')
+      br
       input(type='submit', value='CREATE ROOM')
 
     form(action='/createroom/addroommate', method='post')
       input(type='text', name='roomMateEmail')
+      br
       input(type='submit', value='ADD ROOMATE')
+      br
+
+  div
+    form(action='/createroom/addbill', method='post')
+      input(type='number', min = '0', value='0.00', name='billAmount', step='any')
+      br
+      input(type='text', value='type(hydro, gas, etc.)', name='billType')
+      br
+      input(type='submit', value='ADD BILL')
 
   a(href="/logout") logout

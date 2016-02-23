@@ -94,4 +94,31 @@ router.post('/addroommate', function(req, res){
   })
 })
 
+router.post('/addbill', function(req, res){
+  var amount = req.body.billAmount;
+  var type = req.body.billType;
+  var roomName = req.session.user.room.roomName;
+  var email = req.session.user.email;
+  //user must have a room to make bills
+  if (roomName){
+    User.findOne({email: email}, function(err, user){
+      user.bills.push({
+        type: type,
+        amount: amount
+      });
+      user.save(function(err){
+        if (!err){
+          res.redirect('/dashboard');
+        } else{
+          res.send(err);
+        }
+      })
+    });
+  } else {
+    res.send('create or join a room before creating bills');
+  }
+
+
+});
+
 module.exports = router;

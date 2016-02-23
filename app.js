@@ -52,19 +52,7 @@ app.all("*", function checkSession(req, res, next){
   }
 });
 
-app.all('*', function checkInvites(req, res, next){
-  if (req.user && req.user.roomInvites.length > 0 ){
-    res.locals = {
-      roomInvite: true
-    }
-    next();
-  } else {
-    res.locals = {
-      roomInvite: false
-    }
-    next();
-  }
-});
+
 
 //routes
 app.use('/', index);

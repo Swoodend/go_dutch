@@ -4,6 +4,28 @@ var mongoose = require('mongoose');
 var userModel = require('../models/users');
 var User = mongoose.model('User');
 
+function gatherBills(req, res, next){
+  var roomName = req.session.user.roomInvites[0].roomName;
+  var email = req.session.user.email;
+
+  User.find({'room.roomName': roomName}, function(err, allUsers){
+    User.findOne({email: email}, function(err, user){
+      for (var i = 0; i < allUsers.length; i++){
+        for(var j = 0; j < allUsers[i].bills.length; j++){
+          user.bills.push(allUsers[i].bills[j]);
+        }
+      }
+      user.save(function(err){
+        if (err){
+          res.send(err);
+        } else{
+          next();
+        }
+      });
+    });
+  });
+};
+
 router.get('/', function(req, res){
   res.render('createroom', {user: req.user});
 });
@@ -25,14 +47,10 @@ router.post('/', function(req, res){
   });
 });
 
-router.post('/acceptinvite', function(req, res){
+router.post('/acceptinvite', gatherBills, function(req, res){
   var acceptInvite = req.body.inviteStatusAccept;
   if (acceptInvite){
-    //find tudor by session data
-    //update his 'roomies' data to include: 
-      //name of roomate(person who sent request)
-      //email of roomate
-      //name of room
+
     User.findOne({email: req.session.user.email}, function(err, user){
       user.room.roomies.push({
         firstName: user.roomInvites[0].firstName,
